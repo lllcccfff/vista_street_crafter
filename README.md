@@ -1,136 +1,86 @@
-# StreetCrafter: Street View Synthesis with Controllable Video Diffusion Models
+# Vista
 
-### [Project Page](https://zju3dv.github.io/street_crafter) | [Paper](https://arxiv.org/abs/2412.13188)
+The official implementation of the paper:
 
-> StreetCrafter: Street View Synthesis with Controllable Video Diffusion Models  
-> [Yunzhi Yan*](https://yunzhiy.github.io/), [Zhen Xu*](https://zhenx.me/), [Haotong Lin](https://haotongl.github.io/), [Haian Jin](https://haian-jin.github.io/), [Haoyu Guo](https://github.com/ghy0324), [Yida Wang](https://wangyida.github.io/), Kun Zhan, Xianpeng Lang, [Hujun Bao](http://www.cad.zju.edu.cn/home/bao/), [Xiaowei Zhou](https://www.xzhou.me/), [Sida Peng](https://pengsida.net/)<br>
-> CVPR 2025
+**Vista: A Generalizable Driving World Model with High Fidelity and Versatile Controllability**
 
-https://github.com/user-attachments/assets/1f5fafb4-bf91-480b-be78-2183d1f347b6
+>  [Shenyuan Gao](https://github.com/Little-Podi), [Jiazhi Yang](https://scholar.google.com/citations?user=Ju7nGX8AAAAJ&hl=en), [Li Chen](https://scholar.google.com/citations?user=ulZxvY0AAAAJ&hl=en), [Kashyap Chitta](https://kashyap7x.github.io/), [Yihang Qiu](https://scholar.google.com/citations?user=qgRUOdIAAAAJ&hl=en), [Andreas Geiger](https://www.cvlibs.net/), [Jun Zhang](https://eejzhang.people.ust.hk/), [Hongyang Li](https://lihongyang.info/)
+>
+> 📜 [[technical report](https://arxiv.org/abs/2405.17398)], 🎬 [[video demos](https://vista-demo.github.io/)], 🤗 [[model weights](https://huggingface.co/OpenDriveLab/Vista)], 🗃️ [[OpenDV dataset](https://github.com/OpenDriveLab/DriveAGI?tab=readme-ov-file#opendv)]
 
+<div id="top" align="center">
+<p align="center">
+<img src="assets/teaser.gif" width="1000px" >
+</p>
+</div>
 
+> Simulated futures in a wide range of driving scenarios by [Vista](https://arxiv.org/abs/2405.17398). Best viewed on [demo page](https://vista-demo.github.io/).
 
-### Installation
+## 🔥 Highlights
 
-#### Clone this repository
-```
-git clone https://github.com/zju3dv/street_crafter.git --recursive
-```
+**Vista** is a generalizable driving world model that can:
 
-#### Set up the environment
+- *Predict high-fidelity futures in various scenarios*.
+- *Extend its predictions to continuous and long horizons*.
+- *Execute multi-modal actions (steering angles, speeds, commands, trajectories, goal points).*
+- *Provide rewards for different actions without accessing ground truth actions.*
 
-Our model is tested on one A100/A800 80GB GPU.
+<div id="top" align="center">
+<p align="center">
+<img src="assets/overview.png" width="1000px" >
+</p>
+</div>
 
-```
-conda create -n streetcrafter python=3.9
-conda activate streetcrafter
+## 📢 News
 
-# Install dependencies.
-pip install torch==2.4.0 torchvision==0.19.0 torchaudio==2.4.0 --index-url https://download.pytorch.org/whl/cu121
+> [!IMPORTANT]
+> There is an error in merging the EMA weights of the previously uploaded model. Please download the latest model below.
 
-# Install requirements
-pip install -r requirements.txt 
+- **[2024/06/06]** We released the model weights v1.0 at [Hugging Face](https://huggingface.co/OpenDriveLab/Vista/blob/main/vista.safetensors) and [Google Drive](https://drive.google.com/file/d/1bCM7XLDquRqnnpauQAK5j1jP-n0y1ama/view).
+- **[2024/06/04]** We released the installation, training, and sampling scripts.
+- **[2024/05/28]** We released the implementation of our model.
+- **[2024/05/28]** We released our [paper](https://arxiv.org/abs/2405.17398) on arXiv.
 
-# Install gsplat
-pip install "git+https://github.com/dendenxu/gsplat.git" 
-# This issue might help when installation fails: https://github.com/nerfstudio-project/gsplat/issues/226
+## 📋 TODO List
 
-# Install submodules
-pip install ./submodules/sdata
-pip install ./submodules/simple-knn
-```
+- [ ] New model weights trained with a larger batch size ane more iterations.
+- [ ] Memory efficient training and sampling.
+- [ ] Online demo for interaction.
 
+## 🕹️ Getting Started
 
-### Data Processing
-Please go to `data_processor` and refer to [README.md](data_processor/README.md) for processing details.
-We provide some example scenes on this [link](https://drive.google.com/drive/folders/1a9RirdkWONZ6DUNXEo_wUk-yefM5ryEd?usp=drive_link). You can skip the processing steps and download the data to `data/waymo` directory.
+- [Installation](https://github.com/OpenDriveLab/Vista/blob/main/docs/INSTALL.md)
 
+- [Training](https://github.com/OpenDriveLab/Vista/blob/main/docs/TRAINING.md)
 
-### Model Weights
-The pretrained model weights can be downloaded from this [link](https://drive.google.com/file/d/1Qtdkm0wvIUSMWQMVldd-d16rHZsNFFt1/view?usp=drive_link) to `video_diffusion/ckpts` directory. We also provide the model weights trained using multi-cameras of Waymo under this [link](https://drive.google.com/file/d/1GUZw4s2-B9KmUWYNduHa-ur5kVciOyTI/view?usp=drive_link).
+- [Sampling](https://github.com/OpenDriveLab/Vista/blob/main/docs/SAMPLING.md)
 
+- [Trouble Shooting](https://github.com/OpenDriveLab/Vista/blob/main/docs/ISSUES.md)
 
-### Inference
+## ❤️ Acknowledgement
 
-Inference video diffusion model
-```
-python render.py --config {config_path} mode diffusion
-```
+Our implementation is based on [generative-models](https://github.com/Stability-AI/generative-models) from Stability AI. Thanks for their great open-source work!
 
-We also provide another option for inference by setting the meta info file path.
-```
-# run the command under video diffusion directory
-python sample_condition.py  
-```
+## ⭐ Citation
 
-### Distillation
+If any parts of our paper and code help your research, please consider citing us and giving a star to our repository.
 
-We distill the video diffusion model into dynamic 3D representation based on the codebase of [Street Gaussians](https://zju3dv.github.io/street_gaussians/). Please refer to `street_gaussian/config/config.py` for details of parameters.
+```bibtex
+@article{gao2024vista,
+ title={Vista: A Generalizable Driving World Model with High Fidelity and Versatile Controllability}, 
+ author={Shenyuan Gao and Jiazhi Yang and Li Chen and Kashyap Chitta and Yihang Qiu and Andreas Geiger and Jun Zhang and Hongyang Li},
+ journal={arXiv preprint arXiv:2405.17398},
+ year={2024}
+}
 
-<details> 
-<summary>Training tips</summary>
-
-  
-#### Breakpoint
-In the EasyVolCap framework, if you need to add breakpoints to the code, please use `breakpoint()`.
-
-#### Sky Model
-
-The initially released code contains a bug where the background color is set to black for all scenes.  
-The default sky representation has been changed to cubemap to align with the paper,.  
-However, the cubemap representation may cause artifacts in novel view synthesis, particularly in regions where the sky mask is inaccurate, such as cables.  
-For these scenes, there are two alternative options:  
-- **Option 1**: Set `model.nsg.include_sky` to `True` for scenes with large sky areas.  
-  In this case, the sky will be represented by a separate Gaussian model located outside a predefined sphere.  
-- **Option 2**: Set `model.nsg.include_cube_map` to `False` for scenes with small sky areas.  
-  In this case, the sky will be integrated into the background Gaussian model.
-  
-Remember that you need to set the `data.white_background` according to whether each scene is daytime or nighttime.
-
-</details>
-
-
-Train street gaussian
-```
-python train.py --config {config_path} 
-```
-
-Render input trajectory
-```
-python render.py --config {config_path} mode trajectory
-```
-
-Render novel trajectory
-```
-python render.py --config {config_path} mode novel_view
-```
-
-
-### Training 
-First download the model weights of Vista from this [link](https://drive.google.com/file/d/1bCM7XLDquRqnnpauQAK5j1jP-n0y1ama/view) to `video_diffusion/ckpts` directory. 
-We finetune the video diffuson model based on the codebase of [Vista](https://opendrivelab.com/Vista/). Please refer to their official [Documents](video_diffusion/docs/) for environment setup and training details.
-```
-# run the command under video diffusion directory
-sh training.sh
-```
-
-
-
-### Overview
-![pipeline](assets/pipeline.png)
-(a) We process the LiDAR using calibrated images and object tracklets to obtain a colorized point cloud, which can be rendered to image space as pixel-level conditions. 
-(b) Given observed images and reference image embedding $\mathbf{c}_\text{ref}$, we optimize the video diffusion model conditioned on the LiDAR renderings to perform controllable video generation. 
-(c) Starting from the rendered images and LiDAR conditions under novel trajectory, we use the pretrained controllable video diffusion model to guide the optimization of the dynamic 3DGS representation by generating novel views as extra supervision signals. 
-
-### Citation
-
-If you find this code useful for your research, please use the following BibTeX entry.
-
-```
-@inproceedings{yan2024streetcrafter,
-  title={StreetCrafter: Street View Synthesis with Controllable Video Diffusion Models},
-  author={Yan, Yunzhi and Xu, Zhen and Lin, Haotong and Jin, Haian and Guo, Haoyu and Wang, Yida and Zhan, Kun and Lang, Xianpeng and Bao, Hujun and Zhou, Xiaowei and Peng, Sida},
+@inproceedings{yang2024genad,
+  title={Generalized Predictive Model for Autonomous Driving},
+  author={Jiazhi Yang and Shenyuan Gao and Yihang Qiu and Li Chen and Tianyu Li and Bo Dai and Kashyap Chitta and Penghao Wu and Jia Zeng and Ping Luo and Jun Zhang and Andreas Geiger and Yu Qiao and Hongyang Li},
   booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-  year={2025},
+  year={2024}
 }
 ```
+
+## ⚖️ License
+
+All content in this repository are under the [Apache-2.0 license](https://www.apache.org/licenses/LICENSE-2.0).
